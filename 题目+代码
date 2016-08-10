@@ -1,0 +1,85 @@
+在前面的课程中，我们学习了顺序表的构造、插入、扩展、查找、删除、遍历这 6 种操作。
+然而蒜头君并不满足于实现这些基本的操作，于是蒜头君想到了一种新的操作：循环左移。
+对于顺序表 L=(a_0, a_1, ..., a_{n-1})L=(a​0​​ ,a​1​​ ,...,a​n−1​​ )，
+循环左移 kk 位意味着将顺序表变为 
+L^k=(a_k, a_{k+1}, ..., a_{n-1}, a_0, a_1, ..., a_{k-1})
+L​k​​ =(a​k​​ ,a​k+1​​ ,...,a​n−1​​ ,a​0​​ ,a​1​​ ,...,a​k−1​​ )。
+比如：长度为 8 的顺序表 (1, 2, 3, 4, 5, 6, 7, 8)(1,2,3,4,5,6,7,8)，
+循环左移 3 位后的结果为 (4, 5, 6, 7, 8, 1, 2, 3)(4,5,6,7,8,1,2,3)。
+
+
+输入格式：
+第一行输入两个整数 n(1 \leq n \leq 100)n(1≤n≤100) 和 k(0 \leq k \leq n)k(0≤k≤n)，分别表示顺序表的元素个数和循环左移的位移量。
+第二行一共 nn 个整数 a_i(0 \leq a_i \leq 10000)a​i​​ (0≤a​i​​ ≤10000)，表示顺序表中元素的值。
+
+输出格式：
+输出只有一行，输出 nn 个整数，顺序输出循环左移后顺序表中每个元素的值，每个元素之间用一个空格分隔。行末不要有多余空格。
+
+样例输入
+8 3
+1 2 3 4 5 6 7 8
+样例输出
+4 5 6 7 8 1 2 3
+
+
+
+
+
+#include <iostream>
+#include <cstdio>
+using namespace std;
+class Vector
+{
+    private:
+        int size;
+        int* data;
+    public:
+        Vector(int input_size)
+        {
+            size=input_size;
+            data=new int [size];
+        }
+        ~Vector()
+        {
+            delete []data;
+            data=NULL;
+        }
+        void insert (int index,int value)
+        {
+            data[index]=value;
+        }
+        void remove(int time)
+        {
+            for (int t=0;t<time;t++)
+            {
+                int temp;
+                temp=data[0];
+                for (int i=1;i<size;i++)
+                {
+                    data[i-1]=data[i];
+                }
+                data[size-1]=temp;
+            }
+        }
+        void printInfo()
+        {
+            for (int i=0;i<size;i++)
+            {
+                printf(i>0?" %d":"%d",data[i]);
+            }
+        }
+};
+int main()
+{
+    int n,k;//元素个数,左移的位移量
+    scanf("%d%d",&n,&k);
+    Vector p(n);
+    for (int i=0;i<n;i++)
+    {
+        int temp;
+        cin>>temp;
+        p.insert(i,temp);
+    }
+    p.remove(k);
+    p.printInfo();
+}
